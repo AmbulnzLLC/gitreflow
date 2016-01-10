@@ -5,13 +5,14 @@ module GitReflow
   module GitHelpers
     include Sandbox
 
-    def git_dot_dir
-      @git_dot_dir ||= run('git rev-parse --git-dir', loud: false).strip
+    def file_in_git_folder(file_name)
+      run("git rev-parse --git-path #{file_name}", loud: false).strip
     end
 
     def git_root_dir
       @git_root_dir ||= run('git rev-parse --show-toplevel', loud: false).strip
     end
+
 
     def remote_user
       return "" unless "#{GitReflow::Config.get('remote.origin.url')}".length > 0
@@ -66,8 +67,8 @@ module GitReflow
     end
 
     def append_to_squashed_commit_message(message = '')
-      tmp_squash_message_path = "#{git_dot_dir}/tmp_squash_msg"
-      squash_message_path     = "#{git_dot_dir}/SQUASH_MSG"
+        tmp_squash_message_path = file_in_git_folder("tmp_squash_msg")
+      squash_message_path     = file_in_git_folder("SQUASH_MSG")
       File.open(tmp_squash_message_path, "w") do |file_content|
         file_content.puts message
         if File.exists?(squash_message_path)

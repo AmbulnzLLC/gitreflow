@@ -6,7 +6,7 @@ command :review do |c|
   c.flag [:t, :title], default_value: 'last commit message'
   c.flag [:m, :message], default_value: 'title'
   c.action do |global_options,options,args|
-    pull_request_msg_file = "#{GitReflow.git_root_dir}/.git/GIT_REFLOW_PR_MSG"
+    pull_request_msg_file = GitReflow.file_in_git_folder("GIT_REFLOW_PR_MSG")
 
     if global_options[:title] || global_options[:message]
       review_options = {
@@ -31,7 +31,7 @@ command :review do |c|
 
       File.delete(pull_request_msg_file)
 
-      unless pr_msg.empty? 
+      unless pr_msg.empty?
         pr_msg.shift if pr_msg.first.empty?
       end
 

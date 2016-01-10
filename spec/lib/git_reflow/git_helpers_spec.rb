@@ -151,7 +151,7 @@ describe GitReflow::GitHelpers do
   describe ".append_to_squashed_commit_message(message)" do
     let(:original_squash_message) { "Oooooo, SQUASH IT" }
     let(:message)                 { "do do the voodoo that you do" }
-    let(:root_dir)                { '.' }
+    let(:root_dir)                { :git_root_dir }
     let(:squash_path)             { "#{root_dir}/.git/SQUASH_MSG" }
     let(:tmp_squash_path)         { "#{root_dir}/.git/tmp_squash_msg" }
     before                        { allow(Gitacular).to receive(:git_root_dir).and_return(root_dir) }
